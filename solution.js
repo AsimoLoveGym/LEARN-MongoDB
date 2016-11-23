@@ -31,44 +31,46 @@
 
 //Task 5, Insert
 
-var mongo = require('mongodb').MongoClient
-var firstName = process.argv[2]
-var lastName = process.argv[3]
-var url = "mongodb://localhost:27017/learnyoumongo"
-var insertJSON = {
-  firstName : firstName,
-  lastName : lastName
-}
-
-mongo.connect(url, function(err, db) {
-  if (err) throw err
-  var collection = db.collection('docs')
-  collection.insert(insertJSON,function(err, data){
-    if (err) throw err
-    console.log(JSON.stringify(insertJSON))
-  })
-  db.close()
-})
-
 // var mongo = require('mongodb').MongoClient
-//
 // var firstName = process.argv[2]
 // var lastName = process.argv[3]
-// var doc = {
-//   firstName: firstName
-// , lastName: lastName
+// var url = "mongodb://localhost:27017/learnyoumongo"
+// var insertJSON = {
+//   firstName : firstName,
+//   lastName : lastName
 // }
 //
-// var url = 'mongodb://localhost:27017/learnyoumongo'
 // mongo.connect(url, function(err, db) {
 //   if (err) throw err
 //   var collection = db.collection('docs')
-//   collection.insert(doc, function(err, data) {
+//   collection.insert(insertJSON,function(err, data){
 //     if (err) throw err
-//     console.log(JSON.stringify(doc))
-//     db.close()
+//     console.log(JSON.stringify(insertJSON))
 //   })
+//   db.close()
 // })
 
+//Task 6, Update
+var mongo = require('mongodb').MongoClient;
+var databaseName = process.argv[2];
+var url = "mongodb://localhost:27017/" + databaseName;
 
-//Task 5, Insert
+mongo.connect(url, function(err, db) {
+  if (err) throw err
+  var collection = db.collection('users')
+  collection.update({
+    "name": "Tina",
+    "age": 30,
+    "username": "tinatime"
+  }, {
+    $set: {
+    "age": 40
+    }
+  }
+  ,function(err, data){
+    if (err) throw err
+    console.log("Success!")
+  }
+  )
+  db.close()
+})
