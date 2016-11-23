@@ -51,25 +51,79 @@
 // })
 
 //Task 6, Update
+// var mongo = require('mongodb').MongoClient;
+// var databaseName = process.argv[2];
+// var url = "mongodb://localhost:27017/" + databaseName;
+//
+// mongo.connect(url, function(err, db) {
+//   if (err) throw err
+//   var collection = db.collection('users')
+//   collection.update({
+//     "name": "Tina",
+//     "age": 30,
+//     "username": "tinatime"
+//   }, {
+//     $set: {
+//     "age": 40
+//     }
+//   }
+//   ,function(err, data){
+//     if (err) throw err
+//     console.log("Success!")
+//   }
+//   )
+//   db.close()
+// })
+
+//Task 7, Remove
+// var mongo = require('mongodb').MongoClient;
+// var databaseName = process.argv[2];
+// var url = "mongodb://localhost:27017/" + databaseName;
+// var collectionName = process.argv[3];
+// var docID = process.argv[4];
+// console.log(docID);
+//
+// mongo.connect(url, function(err, db) {
+//   if (err) throw err
+//   var collection = db.collection(collectionName)
+//   collection.remove({
+//     // "_id" : ObjectId(docID)
+//     "_id" : docID
+//   },
+//   function(err, data){
+//     if (err) throw err
+//     console.log("Removed successfully!")
+//   }
+//   )
+//   db.close()
+// })
+
+//Task 8, Count
 var mongo = require('mongodb').MongoClient;
-var databaseName = process.argv[2];
+var databaseName = "learnyoumongo";
 var url = "mongodb://localhost:27017/" + databaseName;
+var collectionName = "parrots";
+var ageLimit = process.argv[2];
+// console.log(typeof ageLimit);
+// console.log(Number(ageLimit));
+// console.log(parseInt(ageLimit));
 
 mongo.connect(url, function(err, db) {
   if (err) throw err
-  var collection = db.collection('users')
-  collection.update({
-    "name": "Tina",
-    "age": 30,
-    "username": "tinatime"
-  }, {
-    $set: {
-    "age": 40
-    }
-  }
-  ,function(err, data){
+    // var cursor = db.collection('parrots').find({"age":{$gt: +ageLimit}});
+    // cursor.toArray(function(err, documents){
+    //   if (err) throw err;
+    //   console.log("Cursor each elements: \n");
+    //   console.log(documents);
+    // })
+
+  var collection = db.collection(collectionName)
+  collection.count({"age":{$gt: parseInt(ageLimit)}},
+  // 
+  function(err, data){
     if (err) throw err
-    console.log("Success!")
+    // console.log("Count successfully!");
+    console.log(data);
   }
   )
   db.close()
